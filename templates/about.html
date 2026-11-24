@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}About Project - HousePrice AI{% endblock %}
+{% block page_title %}About HousePrice AI{% endblock %}
+{% block page_subtitle %}Smart House Price Prediction System – Architecture, Methodology & Engineering Details{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <!-- Project Overview -->
+    <div class="col-lg-8">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>Project Executive Overview</h4>
+                    <p>Academic & industry-standard implementation of Multiple Linear Regression</p>
+                </div>
+                <span class="badge bg-emerald text-white px-3 py-2 rounded-pill">Production Ready</span>
+            </div>
+            
+            <p class="text-secondary">
+                <strong>HousePrice AI</strong> is a full-stack Machine Learning web application designed to demonstrate the real-world statistical power, interpretability, and practical deployment of <strong>Multiple Linear Regression</strong> in residential property valuation.
+            </p>
+            <p class="text-secondary">
+                Unlike opaque black-box deep learning or ensemble tree models, Multiple Linear Regression provides transparent, explainable weights for each property attribute, allowing real estate appraisers, homeowners, and developers to trace precisely how location premiums, square footage, bedroom counts, age depreciation, and parking facilities compose the estimated market valuation.
+            </p>
+
+            <h5 class="fw-bold text-navy mt-4 mb-3">System Architecture Pipeline</h5>
+            <div class="p-3 bg-light rounded-3 border mb-3">
+                <div class="row text-center g-2">
+                    <div class="col-md-3">
+                        <div class="p-2 bg-white rounded border shadow-sm">
+                            <i class="bi bi-file-earmark-spreadsheet text-primary fs-3"></i>
+                            <div class="fw-bold small mt-1">1. Curated Data</div>
+                            <div class="text-muted" style="font-size: 0.72rem;">1,800 records (CSV / SQLite)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-2 bg-white rounded border shadow-sm">
+                            <i class="bi bi-funnel text-warning fs-3"></i>
+                            <div class="fw-bold small mt-1">2. ColumnTransformer</div>
+                            <div class="text-muted" style="font-size: 0.72rem;">OneHotEncoder + Scaler</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-2 bg-white rounded border shadow-sm">
+                            <i class="bi bi-cpu text-success fs-3"></i>
+                            <div class="fw-bold small mt-1">3. LinearRegression</div>
+                            <div class="text-muted" style="font-size: 0.72rem;">sklearn.linear_model</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-2 bg-white rounded border shadow-sm">
+                            <i class="bi bi-display text-info fs-3"></i>
+                            <div class="fw-bold small mt-1">4. Flask & Chart.js</div>
+                            <div class="text-muted" style="font-size: 0.72rem;">Interactive Web UI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="fw-bold text-navy mt-4 mb-2">Mathematical Formulation</h5>
+            <p class="text-muted small">
+                The Multiple Linear Regression hypothesis models the relationship between dependent property price $Y$ and $n$ explanatory variables $X_1, X_2, \dots, X_n$:
+            </p>
+            <div class="p-3 bg-dark text-white rounded-3 font-monospace small mb-3">
+                \[ Y = \beta_0 + \beta_1 X_{\text{Area}} + \beta_2 X_{\text{Bedrooms}} + \beta_3 X_{\text{Bathrooms}} + \beta_4 X_{\text{Floors}} + \beta_5 X_{\text{Age}} + \beta_6 X_{\text{Parking}} + \sum_{k} \gamma_k X_{\text{Location}_k} + \epsilon \]
+            </div>
+            <ul class="text-secondary small">
+                <li><strong>$\beta_0$ (Intercept):</strong> Baseline property valuation constant = ₹ {{ "{:,.0f}".format(metrics.intercept) if metrics else "N/A" }}.</li>
+                <li><strong>$\beta_i$ (Coefficients):</strong> Marginal change in house price per unit increase in feature $X_i$, holding all other variables constant.</li>
+                <li><strong>$\epsilon$ (Error Term):</strong> Unobserved stochastic residual noise, assumed to follow $\mathcal{N}(0, \sigma^2)$.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tech Stack & Specifications -->
+    <div class="col-lg-4">
+        <!-- Tech Stack Card -->
+        <div class="dashboard-card mb-4">
+            <h5 class="fw-bold text-navy mb-3"><i class="bi bi-stack text-primary me-2"></i>Technology Stack</h5>
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-primary-subtle text-primary p-2 fs-6"><i class="bi bi-filetype-py"></i></span>
+                    <div>
+                        <strong class="d-block text-dark small">Backend & Server</strong>
+                        <span class="text-muted small">Python 3.14, Flask 3.1, Jinja2</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-success-subtle text-success p-2 fs-6"><i class="bi bi-gear-wide-connected"></i></span>
+                    <div>
+                        <strong class="d-block text-dark small">Machine Learning Pipeline</strong>
+                        <span class="text-muted small">Scikit-learn (LinearRegression, ColumnTransformer)</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-info-subtle text-info p-2 fs-6"><i class="bi bi-database"></i></span>
+                    <div>
+                        <strong class="d-block text-dark small">Database & Storage</strong>
+                        <span class="text-muted small">SQLite3, Joblib Model Serialization</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-warning-subtle text-warning p-2 fs-6"><i class="bi bi-bar-chart-fill"></i></span>
+                    <div>
+                        <strong class="d-block text-dark small">Visualization & Frontend</strong>
+                        <span class="text-muted small">Chart.js 4.4, Bootstrap 5.3, Custom CSS3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strict Constraints Badge -->
+        <div class="dashboard-card bg-navy text-white" style="background-color: #0b1329;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-check-circle-fill text-emerald fs-5"></i>
+                <h6 class="text-white fw-bold mb-0">Project Compliance</h6>
+            </div>
+            <p class="text-white-50 small mb-3">
+                Engineered with strict compliance to project specifications:
+            </p>
+            <ul class="list-unstyled text-white-50 small mb-0">
+                <li class="mb-2"><i class="bi bi-check text-emerald me-1"></i> Exactly ONE ML algorithm: Multiple Linear Regression</li>
+                <li class="mb-2"><i class="bi bi-check text-emerald me-1"></i> No tree ensembles, SVMs, or neural networks used</li>
+                <li class="mb-2"><i class="bi bi-check text-emerald me-1"></i> Fitting performed strictly on training data</li>
+                <li class="mb-2"><i class="bi bi-check text-emerald me-1"></i> Dynamic charts powered by real SQLite queries</li>
+                <li><i class="bi bi-check text-emerald me-1"></i> Full SQLite prediction persistence with deletion</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

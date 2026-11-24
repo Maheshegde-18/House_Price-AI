@@ -1,0 +1,1045 @@
+{
+  "algorithm": "Multiple Linear Regression",
+  "implementation": "sklearn.linear_model.LinearRegression",
+  "training_samples": 1440,
+  "testing_samples": 360,
+  "total_samples": 1800,
+  "train_test_split_ratio": "80:20",
+  "random_state": 42,
+  "metrics": {
+    "mae": 1313652.3959633636,
+    "mse": 3617801610913.7847,
+    "rmse": 1902051.947480348,
+    "r2_score": 0.9404294136480668,
+    "train_r2_score": 0.9548361212361945,
+    "train_mae": 1255634.5602637131
+  },
+  "intercept": 15524309.131573817,
+  "coefficients": [
+    {
+      "feature": "Location_Bannerghatta Road",
+      "coefficient": -3908372.507196451
+    },
+    {
+      "feature": "Location_Bellandur",
+      "coefficient": -642210.6628081766
+    },
+    {
+      "feature": "Location_Electronic City",
+      "coefficient": -5872231.256669545
+    },
+    {
+      "feature": "Location_HSR Layout",
+      "coefficient": 1748466.7824033028
+    },
+    {
+      "feature": "Location_Hebbal",
+      "coefficient": 43474.60846065328
+    },
+    {
+      "feature": "Location_Indiranagar",
+      "coefficient": 5110331.574888535
+    },
+    {
+      "feature": "Location_Jayanagar",
+      "coefficient": 2970714.867204559
+    },
+    {
+      "feature": "Location_Koramangala",
+      "coefficient": 5944440.925177449
+    },
+    {
+      "feature": "Location_Marathahalli",
+      "coefficient": -3164467.7328949845
+    },
+    {
+      "feature": "Location_Whitefield",
+      "coefficient": -2230146.598565381
+    },
+    {
+      "feature": "Area_sqft",
+      "coefficient": 7249231.395429052
+    },
+    {
+      "feature": "Bedrooms",
+      "coefficient": -179145.7589536721
+    },
+    {
+      "feature": "Bathrooms",
+      "coefficient": -36523.903490682365
+    },
+    {
+      "feature": "Floors",
+      "coefficient": 273342.85154456703
+    },
+    {
+      "feature": "Property_Age",
+      "coefficient": -194869.68305767508
+    },
+    {
+      "feature": "Parking",
+      "coefficient": 65284.3614614713
+    }
+  ],
+  "features": {
+    "categorical": [
+      "Location"
+    ],
+    "numerical": [
+      "Area_sqft",
+      "Bedrooms",
+      "Bathrooms",
+      "Floors",
+      "Property_Age",
+      "Parking"
+    ]
+  },
+  "locations": [
+    "Bannerghatta Road",
+    "Bellandur",
+    "Electronic City",
+    "HSR Layout",
+    "Hebbal",
+    "Indiranagar",
+    "Jayanagar",
+    "Koramangala",
+    "Marathahalli",
+    "Whitefield"
+  ],
+  "residual_distribution": [
+    {
+      "bin_start": -8369310.693366069,
+      "bin_end": -7182753.124749276,
+      "bin_label": "\u20b9-83.7L to \u20b9-71.8L",
+      "count": 2
+    },
+    {
+      "bin_start": -7182753.124749276,
+      "bin_end": -5996195.556132482,
+      "bin_label": "\u20b9-71.8L to \u20b9-60.0L",
+      "count": 1
+    },
+    {
+      "bin_start": -5996195.556132482,
+      "bin_end": -4809637.987515688,
+      "bin_label": "\u20b9-60.0L to \u20b9-48.1L",
+      "count": 4
+    },
+    {
+      "bin_start": -4809637.987515688,
+      "bin_end": -3623080.4188988945,
+      "bin_label": "\u20b9-48.1L to \u20b9-36.2L",
+      "count": 12
+    },
+    {
+      "bin_start": -3623080.4188988945,
+      "bin_end": -2436522.850282101,
+      "bin_label": "\u20b9-36.2L to \u20b9-24.4L",
+      "count": 10
+    },
+    {
+      "bin_start": -2436522.850282101,
+      "bin_end": -1249965.2816653065,
+      "bin_label": "\u20b9-24.4L to \u20b9-12.5L",
+      "count": 55
+    },
+    {
+      "bin_start": -1249965.2816653065,
+      "bin_end": -63407.71304851305,
+      "bin_label": "\u20b9-12.5L to \u20b9-0.6L",
+      "count": 100
+    },
+    {
+      "bin_start": -63407.71304851305,
+      "bin_end": 1123149.8555682804,
+      "bin_label": "\u20b9-0.6L to \u20b911.2L",
+      "count": 115
+    },
+    {
+      "bin_start": 1123149.8555682804,
+      "bin_end": 2309707.424185075,
+      "bin_label": "\u20b911.2L to \u20b923.1L",
+      "count": 45
+    },
+    {
+      "bin_start": 2309707.424185075,
+      "bin_end": 3496264.9928018674,
+      "bin_label": "\u20b923.1L to \u20b935.0L",
+      "count": 9
+    },
+    {
+      "bin_start": 3496264.9928018674,
+      "bin_end": 4682822.561418662,
+      "bin_label": "\u20b935.0L to \u20b946.8L",
+      "count": 3
+    },
+    {
+      "bin_start": 4682822.561418662,
+      "bin_end": 5869380.130035456,
+      "bin_label": "\u20b946.8L to \u20b958.7L",
+      "count": 1
+    },
+    {
+      "bin_start": 5869380.130035456,
+      "bin_end": 7055937.698652249,
+      "bin_label": "\u20b958.7L to \u20b970.6L",
+      "count": 1
+    },
+    {
+      "bin_start": 7055937.698652249,
+      "bin_end": 8242495.267269043,
+      "bin_label": "\u20b970.6L to \u20b982.4L",
+      "count": 1
+    },
+    {
+      "bin_start": 8242495.267269043,
+      "bin_end": 9429052.835885838,
+      "bin_label": "\u20b982.4L to \u20b994.3L",
+      "count": 1
+    }
+  ],
+  "actual_vs_predicted_samples": [
+    {
+      "actual": 3230000.0,
+      "predicted": -332652.86925934255,
+      "residual": 3562652.8692593426,
+      "location": "Electronic City",
+      "area_sqft": 573
+    },
+    {
+      "actual": 12380000.0,
+      "predicted": 14943169.039529596,
+      "residual": -2563169.0395295955,
+      "location": "Electronic City",
+      "area_sqft": 2261
+    },
+    {
+      "actual": 15380000.0,
+      "predicted": 15085841.442712318,
+      "residual": 294158.55728768185,
+      "location": "Marathahalli",
+      "area_sqft": 1979
+    },
+    {
+      "actual": 27020000.0,
+      "predicted": 25729625.510463238,
+      "residual": 1290374.4895367622,
+      "location": "Koramangala",
+      "area_sqft": 2116
+    },
+    {
+      "actual": 7100000.0,
+      "predicted": 5256967.181804327,
+      "residual": 1843032.8181956727,
+      "location": "Marathahalli",
+      "area_sqft": 900
+    },
+    {
+      "actual": 15650000.0,
+      "predicted": 17008415.63776174,
+      "residual": -1358415.6377617382,
+      "location": "Whitefield",
+      "area_sqft": 2074
+    },
+    {
+      "actual": 23100000.0,
+      "predicted": 23302342.31436415,
+      "residual": -202342.31436415017,
+      "location": "Koramangala",
+      "area_sqft": 1829
+    },
+    {
+      "actual": 33830000.0,
+      "predicted": 31246774.864635002,
+      "residual": 2583225.135364998,
+      "location": "Koramangala",
+      "area_sqft": 2742
+    },
+    {
+      "actual": 14650000.0,
+      "predicted": 16442810.05705224,
+      "residual": -1792810.0570522398,
+      "location": "Koramangala",
+      "area_sqft": 1131
+    },
+    {
+      "actual": 18840000.0,
+      "predicted": 18751171.65247354,
+      "residual": 88828.34752646089,
+      "location": "Indiranagar",
+      "area_sqft": 1502
+    },
+    {
+      "actual": 9010000.0,
+      "predicted": 8615288.271296458,
+      "residual": 394711.7287035417,
+      "location": "Whitefield",
+      "area_sqft": 1181
+    },
+    {
+      "actual": 13500000.0,
+      "predicted": 14996865.486414663,
+      "residual": -1496865.4864146635,
+      "location": "Electronic City",
+      "area_sqft": 2258
+    },
+    {
+      "actual": 21180000.0,
+      "predicted": 23247126.38987667,
+      "residual": -2067126.3898766711,
+      "location": "Whitefield",
+      "area_sqft": 2726
+    },
+    {
+      "actual": 8520000.0,
+      "predicted": 7191539.779065765,
+      "residual": 1328460.2209342346,
+      "location": "Bannerghatta Road",
+      "area_sqft": 1179
+    },
+    {
+      "actual": 18860000.0,
+      "predicted": 17793323.677174486,
+      "residual": 1066676.3228255138,
+      "location": "Jayanagar",
+      "area_sqft": 1627
+    },
+    {
+      "actual": 5750000.0,
+      "predicted": 3292099.3770234976,
+      "residual": 2457900.6229765024,
+      "location": "Electronic City",
+      "area_sqft": 928
+    },
+    {
+      "actual": 7600000.0,
+      "predicted": 6449675.664464032,
+      "residual": 1150324.3355359677,
+      "location": "Marathahalli",
+      "area_sqft": 986
+    },
+    {
+      "actual": 16880000.0,
+      "predicted": 18516475.54137744,
+      "residual": -1636475.54137744,
+      "location": "Bannerghatta Road",
+      "area_sqft": 2384
+    },
+    {
+      "actual": 24140000.0,
+      "predicted": 23551105.599457894,
+      "residual": 588894.4005421065,
+      "location": "Bellandur",
+      "area_sqft": 2705
+    },
+    {
+      "actual": 10150000.0,
+      "predicted": 9963612.743131341,
+      "residual": 186387.2568686586,
+      "location": "Hebbal",
+      "area_sqft": 1015
+    },
+    {
+      "actual": 11260000.0,
+      "predicted": 11269332.85140631,
+      "residual": -9332.851406309754,
+      "location": "Bellandur",
+      "area_sqft": 1268
+    },
+    {
+      "actual": 13720000.0,
+      "predicted": 15892309.150100205,
+      "residual": -2172309.150100205,
+      "location": "Koramangala",
+      "area_sqft": 1062
+    },
+    {
+      "actual": 5850000.0,
+      "predicted": 6202905.997553062,
+      "residual": -352905.9975530617,
+      "location": "Hebbal",
+      "area_sqft": 616
+    },
+    {
+      "actual": 17870000.0,
+      "predicted": 17830696.996239122,
+      "residual": 39303.003760878,
+      "location": "HSR Layout",
+      "area_sqft": 1751
+    },
+    {
+      "actual": 11150000.0,
+      "predicted": 10598005.64896852,
+      "residual": 551994.3510314804,
+      "location": "Hebbal",
+      "area_sqft": 1177
+    },
+    {
+      "actual": 9080000.0,
+      "predicted": 8877970.674272798,
+      "residual": 202029.325727202,
+      "location": "Bannerghatta Road",
+      "area_sqft": 1375
+    },
+    {
+      "actual": 9550000.0,
+      "predicted": 9720347.676695297,
+      "residual": -170347.67669529654,
+      "location": "Hebbal",
+      "area_sqft": 1015
+    },
+    {
+      "actual": 13130000.0,
+      "predicted": 13060685.409133717,
+      "residual": 69314.59086628258,
+      "location": "Whitefield",
+      "area_sqft": 1625
+    },
+    {
+      "actual": 6880000.0,
+      "predicted": 7468199.259517731,
+      "residual": -588199.2595177311,
+      "location": "Bellandur",
+      "area_sqft": 845
+    },
+    {
+      "actual": 26590000.0,
+      "predicted": 26075127.061848104,
+      "residual": 514872.938151896,
+      "location": "Hebbal",
+      "area_sqft": 2822
+    },
+    {
+      "actual": 12380000.0,
+      "predicted": 14546697.6676355,
+      "residual": -2166697.6676355004,
+      "location": "Koramangala",
+      "area_sqft": 946
+    },
+    {
+      "actual": 21110000.0,
+      "predicted": 19459613.348561317,
+      "residual": 1650386.6514386833,
+      "location": "Hebbal",
+      "area_sqft": 2045
+    },
+    {
+      "actual": 13620000.0,
+      "predicted": 13549749.497874582,
+      "residual": 70250.50212541781,
+      "location": "Whitefield",
+      "area_sqft": 1674
+    },
+    {
+      "actual": 16360000.0,
+      "predicted": 16905276.090590127,
+      "residual": -545276.0905901268,
+      "location": "Bellandur",
+      "area_sqft": 1863
+    },
+    {
+      "actual": 17610000.0,
+      "predicted": 17466436.299390987,
+      "residual": 143563.70060901344,
+      "location": "Jayanagar",
+      "area_sqft": 1578
+    },
+    {
+      "actual": 18460000.0,
+      "predicted": 24627783.593504548,
+      "residual": -6167783.593504548,
+      "location": "Electronic City",
+      "area_sqft": 3329
+    },
+    {
+      "actual": 29650000.0,
+      "predicted": 27148337.410412304,
+      "residual": 2501662.589587696,
+      "location": "Koramangala",
+      "area_sqft": 2268
+    },
+    {
+      "actual": 12260000.0,
+      "predicted": 13767194.298081521,
+      "residual": -1507194.298081521,
+      "location": "Bannerghatta Road",
+      "area_sqft": 1877
+    },
+    {
+      "actual": 18690000.0,
+      "predicted": 24261946.033927366,
+      "residual": -5571946.033927366,
+      "location": "Bannerghatta Road",
+      "area_sqft": 2981
+    },
+    {
+      "actual": 27800000.0,
+      "predicted": 25369665.05326622,
+      "residual": 2430334.94673378,
+      "location": "Jayanagar",
+      "area_sqft": 2434
+    },
+    {
+      "actual": 25260000.0,
+      "predicted": 25208901.024016805,
+      "residual": 51098.97598319501,
+      "location": "Koramangala",
+      "area_sqft": 2024
+    },
+    {
+      "actual": 15620000.0,
+      "predicted": 15729753.683449928,
+      "residual": -109753.68344992772,
+      "location": "Bellandur",
+      "area_sqft": 1708
+    },
+    {
+      "actual": 10200000.0,
+      "predicted": 9634305.848636348,
+      "residual": 565694.1513636522,
+      "location": "Hebbal",
+      "area_sqft": 1054
+    },
+    {
+      "actual": 10920000.0,
+      "predicted": 9826639.700892197,
+      "residual": 1093360.299107803,
+      "location": "Bannerghatta Road",
+      "area_sqft": 1499
+    },
+    {
+      "actual": 13920000.0,
+      "predicted": 16547158.82025411,
+      "residual": -2627158.82025411,
+      "location": "Koramangala",
+      "area_sqft": 1094
+    },
+    {
+      "actual": 23160000.0,
+      "predicted": 23300393.286028847,
+      "residual": -140393.2860288471,
+      "location": "Indiranagar",
+      "area_sqft": 2030
+    },
+    {
+      "actual": 5350000.0,
+      "predicted": 3118011.500124719,
+      "residual": 2231988.499875281,
+      "location": "Electronic City",
+      "area_sqft": 971
+    },
+    {
+      "actual": 20510000.0,
+      "predicted": 20823480.016708806,
+      "residual": -313480.01670880616,
+      "location": "Hebbal",
+      "area_sqft": 2194
+    },
+    {
+      "actual": 18080000.0,
+      "predicted": 17709689.57763104,
+      "residual": 370310.4223689586,
+      "location": "Bellandur",
+      "area_sqft": 1986
+    },
+    {
+      "actual": 9340000.0,
+      "predicted": 10890197.735346131,
+      "residual": -1550197.735346131,
+      "location": "Jayanagar",
+      "area_sqft": 826
+    },
+    {
+      "actual": 14450000.0,
+      "predicted": 14018403.06007988,
+      "residual": 431596.93992011994,
+      "location": "Hebbal",
+      "area_sqft": 1486
+    },
+    {
+      "actual": 4670000.0,
+      "predicted": 3232273.7408196423,
+      "residual": 1437726.2591803577,
+      "location": "Whitefield",
+      "area_sqft": 569
+    },
+    {
+      "actual": 13540000.0,
+      "predicted": 13702901.809693493,
+      "residual": -162901.80969349295,
+      "location": "Marathahalli",
+      "area_sqft": 1840
+    },
+    {
+      "actual": 10780000.0,
+      "predicted": 10253229.231499836,
+      "residual": 526770.7685001642,
+      "location": "Whitefield",
+      "area_sqft": 1346
+    },
+    {
+      "actual": 6230000.0,
+      "predicted": 5974894.104857216,
+      "residual": 255105.89514278434,
+      "location": "Bellandur",
+      "area_sqft": 666
+    },
+    {
+      "actual": 15800000.0,
+      "predicted": 17570031.170466367,
+      "residual": -1770031.1704663672,
+      "location": "Koramangala",
+      "area_sqft": 1232
+    },
+    {
+      "actual": 7950000.0,
+      "predicted": 7787423.048456596,
+      "residual": 162576.9515434038,
+      "location": "Bellandur",
+      "area_sqft": 936
+    },
+    {
+      "actual": 16960000.0,
+      "predicted": 17549814.826602448,
+      "residual": -589814.8266024478,
+      "location": "Whitefield",
+      "area_sqft": 2111
+    },
+    {
+      "actual": 4320000.0,
+      "predicted": 1521573.6524453238,
+      "residual": 2798426.3475546762,
+      "location": "Electronic City",
+      "area_sqft": 773
+    },
+    {
+      "actual": 7510000.0,
+      "predicted": 6871053.44800408,
+      "residual": 638946.55199592,
+      "location": "Electronic City",
+      "area_sqft": 1350
+    },
+    {
+      "actual": 19080000.0,
+      "predicted": 20319954.983528048,
+      "residual": -1239954.9835280478,
+      "location": "Indiranagar",
+      "area_sqft": 1656
+    },
+    {
+      "actual": 7710000.0,
+      "predicted": 8670221.685255773,
+      "residual": -960221.6852557734,
+      "location": "HSR Layout",
+      "area_sqft": 717
+    },
+    {
+      "actual": 52770000.0,
+      "predicted": 43340947.16411416,
+      "residual": 9429052.835885838,
+      "location": "Koramangala",
+      "area_sqft": 4078
+    },
+    {
+      "actual": 12210000.0,
+      "predicted": 13304687.690509174,
+      "residual": -1094687.690509174,
+      "location": "Bannerghatta Road",
+      "area_sqft": 1835
+    },
+    {
+      "actual": 25100000.0,
+      "predicted": 24687201.867643394,
+      "residual": 412798.1323566064,
+      "location": "HSR Layout",
+      "area_sqft": 2449
+    },
+    {
+      "actual": 20370000.0,
+      "predicted": 24348796.92459938,
+      "residual": -3978796.9245993793,
+      "location": "Bannerghatta Road",
+      "area_sqft": 3074
+    },
+    {
+      "actual": 16830000.0,
+      "predicted": 20425889.643896695,
+      "residual": -3595889.643896695,
+      "location": "Bannerghatta Road",
+      "area_sqft": 2641
+    },
+    {
+      "actual": 10280000.0,
+      "predicted": 9717343.343894225,
+      "residual": 562656.6561057754,
+      "location": "Marathahalli",
+      "area_sqft": 1374
+    },
+    {
+      "actual": 11030000.0,
+      "predicted": 10047615.775271684,
+      "residual": 982384.2247283161,
+      "location": "Bannerghatta Road",
+      "area_sqft": 1532
+    },
+    {
+      "actual": 16190000.0,
+      "predicted": 15367121.366852023,
+      "residual": 822878.6331479773,
+      "location": "HSR Layout",
+      "area_sqft": 1473
+    },
+    {
+      "actual": 11780000.0,
+      "predicted": 11142743.249666741,
+      "residual": 637256.7503332589,
+      "location": "Marathahalli",
+      "area_sqft": 1478
+    },
+    {
+      "actual": 23900000.0,
+      "predicted": 24309963.923138596,
+      "residual": -409963.9231385961,
+      "location": "Indiranagar",
+      "area_sqft": 2096
+    },
+    {
+      "actual": 21810000.0,
+      "predicted": 20809504.26441701,
+      "residual": 1000495.7355829887,
+      "location": "HSR Layout",
+      "area_sqft": 2072
+    },
+    {
+      "actual": 8170000.0,
+      "predicted": 8301829.89065674,
+      "residual": -131829.8906567404,
+      "location": "Hebbal",
+      "area_sqft": 904
+    },
+    {
+      "actual": 5370000.0,
+      "predicted": 2982444.01979601,
+      "residual": 2387555.98020399,
+      "location": "Electronic City",
+      "area_sqft": 947
+    },
+    {
+      "actual": 8020000.0,
+      "predicted": 7030655.920772858,
+      "residual": 989344.079227142,
+      "location": "Bannerghatta Road",
+      "area_sqft": 1188
+    },
+    {
+      "actual": 17840000.0,
+      "predicted": 17314038.404772084,
+      "residual": 525961.5952279158,
+      "location": "Hebbal",
+      "area_sqft": 1866
+    },
+    {
+      "actual": 7450000.0,
+      "predicted": 5752710.837103417,
+      "residual": 1697289.1628965829,
+      "location": "Bannerghatta Road",
+      "area_sqft": 1031
+    },
+    {
+      "actual": 40410000.0,
+      "predicted": 34824166.39541344,
+      "residual": 5585833.604586557,
+      "location": "Koramangala",
+      "area_sqft": 3111
+    },
+    {
+      "actual": 11990000.0,
+      "predicted": 12934690.584262159,
+      "residual": -944690.5842621587,
+      "location": "HSR Layout",
+      "area_sqft": 1184
+    },
+    {
+      "actual": 14300000.0,
+      "predicted": 13334007.729323644,
+      "residual": 965992.2706763558,
+      "location": "Bellandur",
+      "area_sqft": 1502
+    },
+    {
+      "actual": 12160000.0,
+      "predicted": 12422234.899938174,
+      "residual": -262234.8999381736,
+      "location": "Hebbal",
+      "area_sqft": 1332
+    },
+    {
+      "actual": 38040000.0,
+      "predicted": 33762123.2773839,
+      "residual": 4277876.722616099,
+      "location": "Indiranagar",
+      "area_sqft": 3082
+    },
+    {
+      "actual": 14400000.0,
+      "predicted": 15849179.267031955,
+      "residual": -1449179.2670319546,
+      "location": "Koramangala",
+      "area_sqft": 1044
+    },
+    {
+      "actual": 13730000.0,
+      "predicted": 14511480.564236352,
+      "residual": -781480.5642363522,
+      "location": "Bannerghatta Road",
+      "area_sqft": 2020
+    },
+    {
+      "actual": 16350000.0,
+      "predicted": 17504403.211831197,
+      "residual": -1154403.2118311971,
+      "location": "Marathahalli",
+      "area_sqft": 2173
+    },
+    {
+      "actual": 11490000.0,
+      "predicted": 11348760.318617724,
+      "residual": 141239.68138227612,
+      "location": "Whitefield",
+      "area_sqft": 1538
+    },
+    {
+      "actual": 7950000.0,
+      "predicted": 6729144.2164878715,
+      "residual": 1220855.7835121285,
+      "location": "Whitefield",
+      "area_sqft": 961
+    },
+    {
+      "actual": 14450000.0,
+      "predicted": 14687244.938483585,
+      "residual": -237244.93848358467,
+      "location": "Whitefield",
+      "area_sqft": 1847
+    },
+    {
+      "actual": 7360000.0,
+      "predicted": 5618166.521901472,
+      "residual": 1741833.4780985285,
+      "location": "Bannerghatta Road",
+      "area_sqft": 972
+    },
+    {
+      "actual": 12150000.0,
+      "predicted": 12401635.743988624,
+      "residual": -251635.74398862384,
+      "location": "Whitefield",
+      "area_sqft": 1553
+    },
+    {
+      "actual": 12490000.0,
+      "predicted": 12514619.976678018,
+      "residual": -24619.976678017527,
+      "location": "Marathahalli",
+      "area_sqft": 1694
+    },
+    {
+      "actual": 22640000.0,
+      "predicted": 23832280.87240937,
+      "residual": -1192280.8724093698,
+      "location": "Marathahalli",
+      "area_sqft": 2892
+    },
+    {
+      "actual": 18200000.0,
+      "predicted": 19352050.204574265,
+      "residual": -1152050.2045742646,
+      "location": "Koramangala",
+      "area_sqft": 1396
+    },
+    {
+      "actual": 10670000.0,
+      "predicted": 10441656.044490345,
+      "residual": 228343.95550965518,
+      "location": "Bellandur",
+      "area_sqft": 1189
+    },
+    {
+      "actual": 8160000.0,
+      "predicted": 7501879.842451301,
+      "residual": 658120.1575486986,
+      "location": "Marathahalli",
+      "area_sqft": 1126
+    },
+    {
+      "actual": 23120000.0,
+      "predicted": 22162680.299920708,
+      "residual": 957319.7000792921,
+      "location": "Koramangala",
+      "area_sqft": 1757
+    },
+    {
+      "actual": 10010000.0,
+      "predicted": 10367190.11286621,
+      "residual": -357190.1128662098,
+      "location": "Bellandur",
+      "area_sqft": 1134
+    },
+    {
+      "actual": 7300000.0,
+      "predicted": 5878663.608893534,
+      "residual": 1421336.3911064658,
+      "location": "Bannerghatta Road",
+      "area_sqft": 1040
+    },
+    {
+      "actual": 30570000.0,
+      "predicted": 29667981.079181895,
+      "residual": 902018.9208181053,
+      "location": "HSR Layout",
+      "area_sqft": 3002
+    },
+    {
+      "actual": 10040000.0,
+      "predicted": 11705102.212576684,
+      "residual": -1665102.2125766836,
+      "location": "Jayanagar",
+      "area_sqft": 925
+    },
+    {
+      "actual": 7680000.0,
+      "predicted": 6399570.546607049,
+      "residual": 1280429.4533929508,
+      "location": "Whitefield",
+      "area_sqft": 949
+    },
+    {
+      "actual": 27030000.0,
+      "predicted": 31391946.34768109,
+      "residual": -4361946.34768109,
+      "location": "Marathahalli",
+      "area_sqft": 3750
+    },
+    {
+      "actual": 7350000.0,
+      "predicted": 5387220.285760989,
+      "residual": 1962779.7142390106,
+      "location": "Electronic City",
+      "area_sqft": 1192
+    },
+    {
+      "actual": 9790000.0,
+      "predicted": 9366317.204886742,
+      "residual": 423682.79511325806,
+      "location": "Whitefield",
+      "area_sqft": 1238
+    },
+    {
+      "actual": 17610000.0,
+      "predicted": 18857373.439134263,
+      "residual": -1247373.4391342625,
+      "location": "Jayanagar",
+      "area_sqft": 1717
+    },
+    {
+      "actual": 9510000.0,
+      "predicted": 9292772.155625742,
+      "residual": 217227.84437425807,
+      "location": "Hebbal",
+      "area_sqft": 955
+    },
+    {
+      "actual": 23930000.0,
+      "predicted": 24932992.770549983,
+      "residual": -1002992.7705499828,
+      "location": "Bellandur",
+      "area_sqft": 2781
+    },
+    {
+      "actual": 5660000.0,
+      "predicted": 3543121.5594462696,
+      "residual": 2116878.4405537304,
+      "location": "Electronic City",
+      "area_sqft": 982
+    },
+    {
+      "actual": 21770000.0,
+      "predicted": 21683830.39479883,
+      "residual": 86169.60520116985,
+      "location": "Hebbal",
+      "area_sqft": 2285
+    },
+    {
+      "actual": 5810000.0,
+      "predicted": 3763074.4686989915,
+      "residual": 2046925.5313010085,
+      "location": "Electronic City",
+      "area_sqft": 1050
+    },
+    {
+      "actual": 12750000.0,
+      "predicted": 11903687.875213988,
+      "residual": 846312.1247860119,
+      "location": "Whitefield",
+      "area_sqft": 1547
+    },
+    {
+      "actual": 10100000.0,
+      "predicted": 11096904.255943753,
+      "residual": -996904.2559437528,
+      "location": "Electronic City",
+      "area_sqft": 1778
+    },
+    {
+      "actual": 12130000.0,
+      "predicted": 14437056.857616492,
+      "residual": -2307056.8576164916,
+      "location": "Indiranagar",
+      "area_sqft": 1003
+    },
+    {
+      "actual": 7190000.0,
+      "predicted": 5826586.729191052,
+      "residual": 1363413.2708089482,
+      "location": "Electronic City",
+      "area_sqft": 1240
+    },
+    {
+      "actual": 8530000.0,
+      "predicted": 7487437.031529121,
+      "residual": 1042562.9684708789,
+      "location": "Electronic City",
+      "area_sqft": 1489
+    },
+    {
+      "actual": 7840000.0,
+      "predicted": 11732300.541301105,
+      "residual": -3892300.541301105,
+      "location": "Koramangala",
+      "area_sqft": 702
+    },
+    {
+      "actual": 14900000.0,
+      "predicted": 14880158.750076879,
+      "residual": 19841.249923121184,
+      "location": "Marathahalli",
+      "area_sqft": 1986
+    },
+    {
+      "actual": 9920000.0,
+      "predicted": 10364315.053216634,
+      "residual": -444315.0532166343,
+      "location": "Electronic City",
+      "area_sqft": 1759
+    },
+    {
+      "actual": 8960000.0,
+      "predicted": 8442138.417167142,
+      "residual": 517861.58283285797,
+      "location": "Whitefield",
+      "area_sqft": 1150
+    }
+  ],
+  "target_variable": "Price_INR",
+  "evaluation_notes": "R-squared represents the proportion of variance in house prices explained by the linear combination of input features. It is a goodness-of-fit metric for regression models, distinct from classification accuracy. Performance depends on dataset linearity, feature relevance, and noise levels."
+}

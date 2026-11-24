@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction History - HousePrice AI{% endblock %}
+{% block page_title %}Prediction History{% endblock %}
+{% block page_subtitle %}Review all past property valuations stored securely in SQLite database{% endblock %}
+
+{% block content %}
+<div class="dashboard-card">
+    <div class="section-header">
+        <div>
+            <h4>User Valuation Log</h4>
+            <p>Historical record of property queries and predicted valuations</p>
+        </div>
+        {% if predictions %}
+        <form method="POST" action="{{ url_for('clear_history') }}" onsubmit="return confirm('Are you sure you want to clear all prediction history? This action cannot be undone.');">
+            <button type="submit" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash3-fill me-1"></i> Clear All History
+            </button>
+        </form>
+        {% endif %}
+    </div>
+
+    {% if predictions %}
+    <div class="table-responsive">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th># ID</th>
+                    <th>Timestamp</th>
+                    <th>Location</th>
+                    <th>Area (sq.ft)</th>
+                    <th>Bedrooms</th>
+                    <th>Bathrooms</th>
+                    <th>Floors</th>
+                    <th>Age</th>
+                    <th>Parking</th>
+                    <th>Est. Rate / sqft</th>
+                    <th>Predicted Price (₹)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in predictions %}
+                <tr>
+                    <td class="text-muted fw-bold">#{{ p.id }}</td>
+                    <td class="small text-muted">{{ p.created_at }}</td>
+                    <td><span class="badge-loc">{{ p.location }}</span></td>
+                    <td><strong>{{ p.area_sqft }}</strong> sq.ft</td>
+                    <td>{{ p.bedrooms }} BHK</td>
+                    <td>{{ p.bathrooms }} Bath</td>
+                    <td>{{ p.floors }} Flr</td>
+                    <td>{{ p.property_age }} yrs</td>
+                    <td>
+                        {% if p.parking == 1 %}
+                        <span class="badge-parking-yes">Yes</span>
+                        {% else %}
+                        <span class="badge-parking-no">No</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted small">₹ {{ "{:,.0f}".format(p.price_per_sqft) }}</td>
+                    <td>
+                        <strong class="text-success">{{ p.predicted_price_inr | format_inr }}</strong>
+                        <div class="small text-muted">{{ p.predicted_price_inr | format_inr_full }}</div>
+                    </td>
+                    <td>
+                        <form method="POST" action="{{ url_for('delete_pred', pred_id=p.id) }}" onsubmit="return confirm('Delete this prediction record?');">
+                            <button type="submit" class="btn btn-sm btn-light text-danger border" title="Delete Record">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5 text-muted">
+        <i class="bi bi-clipboard-data fs-1 text-secondary d-block mb-3"></i>
+        <h5>No Prediction History Yet</h5>
+        <p>You haven't run any property valuations yet. Go to the prediction tool to get started.</p>
+        <a href="{{ url_for('predict') }}" class="btn btn-emerald">
+            <i class="bi bi-calculator me-1"></i> Make Your First Valuation
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

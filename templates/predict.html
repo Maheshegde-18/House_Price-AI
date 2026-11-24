@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Predict House Price - HousePrice AI{% endblock %}
+{% block page_title %}Predict House Price{% endblock %}
+{% block page_subtitle %}Instant real-estate valuation powered strictly by Multiple Linear Regression{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Left Column: Prediction Form -->
+    <div class="col-lg-6">
+        <div class="dashboard-card">
+            <div class="section-header border-bottom pb-3 mb-4">
+                <div>
+                    <h4>Property Valuation Form</h4>
+                    <p>Enter the property specifications below to calculate estimated market price</p>
+                </div>
+                <span class="badge bg-light text-dark border">
+                    <i class="bi bi-shield-check text-success me-1"></i> Input Validated
+                </span>
+            </div>
+
+            <form id="predictionForm" method="POST" action="{{ url_for('predict') }}">
+                <div class="row g-3">
+                    <!-- Location -->
+                    <div class="col-12">
+                        <label for="predLocation" class="form-label-custom">
+                            <i class="bi bi-geo-alt-fill text-danger"></i> Property Location <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select form-select-custom" id="predLocation" name="location" required>
+                            <option value="" disabled {% if not form_data or not form_data.location %}selected{% endif %}>Select Location Category...</option>
+                            {% for loc in locations %}
+                            <option value="{{ loc }}" {% if form_data and form_data.location == loc %}selected{% endif %}>{{ loc }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Property Area -->
+                    <div class="col-md-6">
+                        <label for="predArea" class="form-label-custom">
+                            <i class="bi bi-aspect-ratio-fill text-primary"></i> Area (Square Feet) <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" class="form-control form-control-custom" id="predArea" name="area_sqft" 
+                               min="200" max="15000" step="10" placeholder="e.g. 1550" 
+                               value="{{ form_data.area_sqft if form_data else '1450' }}" required>
+                        <div class="form-text small">Standard residential range: 400 - 6,000 sq ft</div>
+                    </div>
+
+                    <!-- Bedrooms -->
+                    <div class="col-md-6">
+                        <label for="predBedrooms" class="form-label-custom">
+                            <i class="bi bi-door-closed-fill text-success"></i> Bedrooms (BHK) <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select form-select-custom" id="predBedrooms" name="bedrooms" required>
+                            {% for b in range(1, 6) %}
+                            <option value="{{ b }}" {% if form_data and form_data.bedrooms|int == b %}selected{% elif not form_data and b == 3 %}selected{% endif %}>
+                                {{ b }} BHK ({{ b }} Bedroom{% if b > 1 %}s{% endif %})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Bathrooms -->
+                    <div class="col-md-6">
+                        <label for="predBathrooms" class="form-label-custom">
+                            <i class="bi bi-droplet-half text-info"></i> Bathrooms <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select form-select-custom" id="predBathrooms" name="bathrooms" required>
+                            {% for b in range(1, 6) %}
+                            <option value="{{ b }}" {% if form_data and form_data.bathrooms|int == b %}selected{% elif not form_data and b == 2 %}selected{% endif %}>
+                                {{ b }} Bathroom{% if b > 1 %}s{% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Floors -->
+                    <div class="col-md-6">
+                        <label for="predFloors" class="form-label-custom">
+                            <i class="bi bi-building text-warning"></i> Number of Floors <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select form-select-custom" id="predFloors" name="floors" required>
+                            {% for f in range(1, 5) %}
+                            <option value="{{ f }}" {% if form_data and form_data.floors|int == f %}selected{% elif not form_data and f == 1 %}selected{% endif %}>
+                                {{ f }} Floor{% if f > 1 %}s{% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Property Age -->
+                    <div class="col-md-6">
+                        <label for="predAge" class="form-label-custom">
+                            <i class="bi bi-calendar-event text-secondary"></i> Property Age (Years) <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" class="form-control form-control-custom" id="predAge" name="property_age" 
+                               min="0" max="60" placeholder="e.g. 3" 
+                               value="{{ form_data.property_age if form_data else '2' }}" required>
+                        <div class="form-text small">0 for Brand New / Under Construction</div>
+                    </div>
+
+                    <!-- Parking Availability -->
+                    <div class="col-md-6">
+                        <label for="predParking" class="form-label-custom">
+                            <i class="bi bi-p-square-fill text-dark"></i> Parking Availability <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select form-select-custom" id="predParking" name="parking" required>
+                            <option value="1" {% if not form_data or form_data.parking|int == 1 %}selected{% endif %}>Yes (Dedicated Parking)</option>
+                            <option value="0" {% if form_data and form_data.parking|int == 0 %}selected{% endif %}>No Parking</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-emerald w-100 py-3 fs-6" id="predictSubmitBtn">
+                            <i class="bi bi-magic me-2"></i>Predict Price Now
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Column: Prediction Result Container & Model Specifications -->
+    <div class="col-lg-6">
+        <!-- Result Container -->
+        <div id="predictionResultContainer">
+            {% if result %}
+            <div class="prediction-result-card animate__animated animate__fadeInUp">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="badge bg-success text-white px-3 py-2 rounded-pill">
+                        <i class="bi bi-check-circle-fill me-1"></i> Multiple Linear Regression Output
+                    </span>
+                    <span class="text-white-50 small"><i class="bi bi-clock me-1"></i>Saved to SQLite</span>
+                </div>
+                
+                <p class="text-white-50 mb-1 small text-uppercase fw-bold letter-spacing-1">Estimated Market Value</p>
+                <div class="prediction-price-tag">
+                    <span>{{ result.formatted_price }}</span>
+                    <span class="prediction-price-secondary">({{ result.formatted_price_full }})</span>
+                </div>
+                
+                <p class="text-white-50 mb-3">Estimated Rate: <strong class="text-white">₹ {{ "{:,.2f}".format(result.price_per_sqft) }}/sq.ft</strong></p>
+                
+                <div class="border-top border-secondary pt-3 mt-3">
+                    <p class="text-white-50 small fw-bold mb-2 text-uppercase">Configured Property Specs:</p>
+                    <div class="property-details-pill-grid">
+                        <span class="detail-pill"><i class="bi bi-geo-alt-fill"></i> {{ result.location }}</span>
+                        <span class="detail-pill"><i class="bi bi-aspect-ratio-fill"></i> {{ result.area_sqft }} sq.ft</span>
+                        <span class="detail-pill"><i class="bi bi-door-closed-fill"></i> {{ result.bedrooms }} BHK</span>
+                        <span class="detail-pill"><i class="bi bi-droplet-half"></i> {{ result.bathrooms }} Baths</span>
+                        <span class="detail-pill"><i class="bi bi-building"></i> {{ result.floors }} Floor(s)</span>
+                        <span class="detail-pill"><i class="bi bi-calendar2-check"></i> {{ result.property_age }} yrs old</span>
+                        <span class="detail-pill"><i class="bi bi-p-square-fill"></i> Parking: {{ result.parking }}</span>
+                    </div>
+                </div>
+
+                <div class="disclaimer-alert">
+                    <i class="bi bi-exclamation-triangle-fill fs-5 mt-1 text-warning flex-shrink-0"></i>
+                    <div>
+                        <strong>Academic & Demonstration Disclaimer:</strong>
+                        <div>This estimated price is generated using a Multiple Linear Regression statistical model for educational & demonstration purposes. It does not constitute an official appraisal or guaranteed market quotation.</div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Initial Placeholder Card -->
+            <div class="dashboard-card text-center py-5 border-dashed">
+                <div class="py-4">
+                    <div class="brand-icon-box mx-auto mb-3" style="width: 64px; height: 64px; font-size: 30px;">
+                        <i class="bi bi-calculator"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Awaiting Property Details</h5>
+                    <p class="text-muted px-4 mx-auto" style="max-width: 420px;">
+                        Fill out the form on the left and click <strong>"Predict Price Now"</strong> to compute an instant valuation powered by our scikit-learn Multiple Linear Regression pipeline.
+                    </p>
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <span class="badge bg-light text-muted border">No Hidden Estimations</span>
+                        <span class="badge bg-light text-muted border">Persistent to SQLite</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Information Card on How ML Predicts -->
+        <div class="dashboard-card mt-4">
+            <h5 class="fw-bold mb-2"><i class="bi bi-lightbulb-fill text-warning me-2"></i>How the Regression Pipeline Works</h5>
+            <p class="text-muted small mb-3">
+                When you click Predict, the input features are transformed using our scikit-learn <code>ColumnTransformer</code>:
+            </p>
+            <ul class="list-unstyled small text-secondary mb-0">
+                <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i><strong>Location:</strong> OneHotEncoded into orthogonal categorical vectors (with <code>handle_unknown='ignore'</code>).</li>
+                <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i><strong>Numeric Features:</strong> Scaled and multiplied by fitted regression coefficients $\beta_i$.</li>
+                <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i><strong>Linear Combination:</strong> $\hat{y} = \beta_0 + \sum_{i=1}^n \beta_i X_i$.</li>
+                <li><i class="bi bi-check2 text-success me-2"></i><strong>Automatic Persistence:</strong> Automatically recorded in SQLite database with full timestamp.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

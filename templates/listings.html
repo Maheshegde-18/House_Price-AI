@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Property Listings - HousePrice AI{% endblock %}
+{% block page_title %}Property Listings{% endblock %}
+{% block page_subtitle %}Explore residential records loaded into SQLite database with dynamic filtering & sorting{% endblock %}
+
+{% block content %}
+<!-- Search & Filter Card -->
+<div class="dashboard-card mb-4">
+    <form method="GET" action="{{ url_for('listings') }}" class="row g-3 align-items-end">
+        <!-- Search Keyword -->
+        <div class="col-md-3">
+            <label for="searchInput" class="form-label-custom small">
+                <i class="bi bi-search text-muted"></i> Search Keywords
+            </label>
+            <input type="text" class="form-control form-control-custom" id="searchInput" name="search" 
+                   placeholder="Location or area..." value="{{ search }}">
+        </div>
+
+        <!-- Location Filter -->
+        <div class="col-md-2 col-sm-6">
+            <label for="locationFilter" class="form-label-custom small">
+                <i class="bi bi-geo-alt text-muted"></i> Location
+            </label>
+            <select class="form-select form-select-custom" id="locationFilter" name="location">
+                <option value="All" {% if selected_location == 'All' %}selected{% endif %}>All Locations</option>
+                {% for loc in locations %}
+                <option value="{{ loc }}" {% if selected_location == loc %}selected{% endif %}>{{ loc }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Bedrooms Filter -->
+        <div class="col-md-2 col-sm-6">
+            <label for="bedroomsFilter" class="form-label-custom small">
+                <i class="bi bi-door-closed text-muted"></i> Bedrooms
+            </label>
+            <select class="form-select form-select-custom" id="bedroomsFilter" name="bedrooms">
+                <option value="All" {% if selected_bedrooms == 'All' %}selected{% endif %}>All BHKs</option>
+                {% for b in range(1, 6) %}
+                <option value="{{ b }}" {% if selected_bedrooms|string == b|string %}selected{% endif %}>{{ b }} BHK</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Min Price -->
+        <div class="col-md-2 col-sm-6">
+            <label for="minPrice" class="form-label-custom small">Min Price (₹)</label>
+            <input type="number" class="form-control form-control-custom" id="minPrice" name="min_price" 
+                   placeholder="e.g. 5000000" value="{{ min_price }}">
+        </div>
+
+        <!-- Sort By -->
+        <div class="col-md-2 col-sm-6">
+            <label for="sortBy" class="form-label-custom small">Sort By</label>
+            <select class="form-select form-select-custom" id="sortBy" name="sort_by">
+                <option value="id_asc" {% if sort_by == 'id_asc' %}selected{% endif %}>Default Order</option>
+                <option value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                <option value="price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                <option value="area_asc" {% if sort_by == 'area_asc' %}selected{% endif %}>Area: Small to Large</option>
+                <option value="area_desc" {% if sort_by == 'area_desc' %}selected{% endif %}>Area: Large to Small</option>
+                <option value="age_asc" {% if sort_by == 'age_asc' %}selected{% endif %}>Age: Newest First</option>
+            </select>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="col-md-1 d-flex gap-2">
+            <button type="submit" class="btn btn-emerald w-100 px-3" title="Apply Filters">
+                <i class="bi bi-funnel-fill"></i>
+            </button>
+            <a href="{{ url_for('listings') }}" class="btn btn-outline-secondary px-3" title="Reset Filters">
+                <i class="bi bi-arrow-counterclockwise"></i>
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Listings Results Section -->
+<div class="dashboard-card">
+    <div class="section-header">
+        <div>
+            <h4>Property Listings Directory</h4>
+            <p>Showing {{ properties|length }} of {{ total_count }} matching residential properties</p>
+        </div>
+        <span class="badge bg-light text-secondary border px-3 py-2">
+            Page {{ page }} of {{ total_pages }}
+        </span>
+    </div>
+
+    {% if properties %}
+    <div class="table-responsive">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th># ID</th>
+                    <th>Location</th>
+                    <th>Area (sq.ft)</th>
+                    <th>Configuration</th>
+                    <th>Floors</th>
+                    <th>Property Age</th>
+                    <th>Parking</th>
+                    <th>Listed Date</th>
+                    <th>Price (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in properties %}
+                <tr>
+                    <td class="text-muted fw-bold">#{{ p.id }}</td>
+                    <td><span class="badge-loc">{{ p.location }}</span></td>
+                    <td><strong>{{ p.area_sqft }}</strong> sq.ft</td>
+                    <td>
+                        <span class="badge bg-light text-dark border me-1">{{ p.bedrooms }} BHK</span>
+                        <span class="badge bg-light text-dark border">{{ p.bathrooms }} Bath</span>
+                    </td>
+                    <td>{{ p.floors }} Floor{% if p.floors > 1 %}s{% endif %}</td>
+                    <td>
+                        {% if p.property_age == 0 %}
+                        <span class="text-success fw-bold">Brand New</span>
+                        {% else %}
+                        {{ p.property_age }} yr{% if p.property_age > 1 %}s{% endif %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if p.parking == 1 %}
+                        <span class="badge-parking-yes"><i class="bi bi-check2"></i> Yes</span>
+                        {% else %}
+                        <span class="badge-parking-no"><i class="bi bi-x"></i> No</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted small">{{ p.date_listed }}</td>
+                    <td>
+                        <strong class="text-success fs-6">{{ p.price_inr | format_inr }}</strong>
+                        <div class="small text-muted">₹ {{ "{:,.0f}".format(p.price_inr / p.area_sqft) }}/sqft</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    {% if total_pages > 1 %}
+    <nav class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+        <div class="text-muted small">
+            Showing properties {{ (page - 1) * 12 + 1 }} to {{ [page * 12, total_count] | min }} of {{ total_count }}
+        </div>
+        <ul class="pagination pagination-sm mb-0">
+            {% if page > 1 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('listings', page=page-1, search=search, location=selected_location, bedrooms=selected_bedrooms, min_price=min_price, sort_by=sort_by) }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+
+            {% for p_num in range(1, total_pages + 1) %}
+                {% if p_num == page %}
+                <li class="page-item active"><span class="page-link bg-emerald border-0">{{ p_num }}</span></li>
+                {% elif p_num <= 3 or p_num > total_pages - 2 or (p_num >= page - 1 and p_num <= page + 1) %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('listings', page=p_num, search=search, location=selected_location, bedrooms=selected_bedrooms, min_price=min_price, sort_by=sort_by) }}">{{ p_num }}</a>
+                </li>
+                {% elif p_num == 4 or p_num == total_pages - 2 %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page < total_pages %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('listings', page=page+1, search=search, location=selected_location, bedrooms=selected_bedrooms, min_price=min_price, sort_by=sort_by) }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="text-center py-5 text-muted">
+        <i class="bi bi-search fs-1 text-secondary d-block mb-3"></i>
+        <h5>No Properties Found</h5>
+        <p>No listings matched your active filter criteria. Try broadening your search or resetting filters.</p>
+        <a href="{{ url_for('listings') }}" class="btn btn-outline-secondary btn-sm">Reset All Filters</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

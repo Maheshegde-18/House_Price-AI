@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Market Analytics - HousePrice AI{% endblock %}
+{% block page_title %}Market Analytics{% endblock %}
+{% block page_subtitle %}In-depth empirical insights, price distributions, and real estate trends{% endblock %}
+
+{% block content %}
+<!-- Analytics KPI Strip -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3 col-sm-6">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <span>Sample Size</span>
+                <h3>{{ kpis.total_properties }}</h3>
+                <p>Curated Observations</p>
+            </div>
+            <div class="kpi-icon-box kpi-blue">
+                <i class="bi bi-pie-chart-fill"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <span>Avg Market Price</span>
+                <h3>{{ kpis.avg_price | format_inr }}</h3>
+                <p>Composite Average</p>
+            </div>
+            <div class="kpi-icon-box kpi-green">
+                <i class="bi bi-wallet2"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <span>Avg Square Footage</span>
+                <h3>{{ "%.0f"|format(kpis.avg_area) }} sq.ft</h3>
+                <p>Standard Built-up Area</p>
+            </div>
+            <div class="kpi-icon-box kpi-teal">
+                <i class="bi bi-rulers"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <span>Total Locations</span>
+                <h3>{{ locations|length }}</h3>
+                <p>Metro Submarkets</p>
+            </div>
+            <div class="kpi-icon-box kpi-purple">
+                <i class="bi bi-pin-map-fill"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4 Core Market Charts -->
+<div class="row g-4 mb-4">
+    <!-- Chart 1: Bar chart comparing average prices by location -->
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>1. Average Price by Location</h4>
+                    <p>Mean property valuation across 10 prominent Bangalore tech & residential corridors</p>
+                </div>
+            </div>
+            <div class="chart-container-box">
+                <canvas id="analyticsLocationBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 2: Scatter plot showing area versus house price -->
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>2. Area vs. House Price</h4>
+                    <p>Scatter plot illustrating strong positive linear correlation between square feet and price</p>
+                </div>
+            </div>
+            <div class="chart-container-box">
+                <canvas id="analyticsAreaScatterChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 3: Line chart showing property price trends by dataset date -->
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>3. Property Price Trends Over Time</h4>
+                    <p>Chronological monthly progression of average property listing prices</p>
+                </div>
+            </div>
+            <div class="chart-container-box">
+                <canvas id="analyticsDateTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 4: Bar chart comparing prices by number of bedrooms -->
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>4. Price Comparison by Bedroom Count</h4>
+                    <p>Marginal price appreciation from 1 BHK studio units to 5 BHK luxury villas</p>
+                </div>
+            </div>
+            <div class="chart-container-box">
+                <canvas id="analyticsBedroomsBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Analytical Commentary Card -->
+<div class="dashboard-card">
+    <div class="section-header">
+        <div>
+            <h4>Market Findings & Regression Observations</h4>
+            <p>Mathematical interpretation of dataset features for linear modeling</p>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="p-3 bg-light rounded-3 h-100 border">
+                <h6 class="fw-bold text-navy mb-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Location Premium</h6>
+                <p class="small text-muted mb-0">
+                    Koramangala and Indiranagar exhibit the highest base rates per square foot (> ₹11,500/sq.ft), serving as heavy positive regression coefficients in the linear equation. Outer suburbs like Electronic City represent high-volume affordable segments.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 bg-light rounded-3 h-100 border">
+                <h6 class="fw-bold text-navy mb-2"><i class="bi bi-aspect-ratio-fill text-primary me-1"></i> Area & Configuration Dominance</h6>
+                <p class="small text-muted mb-0">
+                    Super built-up area carries the largest single explanatory power for valuation. Bedrooms and bathrooms introduce stepped additive premiums, perfectly captured by Multiple Linear Regression coefficients.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 bg-light rounded-3 h-100 border">
+                <h6 class="fw-bold text-navy mb-2"><i class="bi bi-hourglass-bottom text-warning me-1"></i> Depreciation & Parking</h6>
+                <p class="small text-muted mb-0">
+                    Property age acts as an intuitive negative linear weight (~ ₹35,000/yr depreciation), while dedicated parking spaces provide an immediate capital valuation bump (~ ₹3 Lakhs).
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

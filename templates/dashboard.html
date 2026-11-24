@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Overview - HousePrice AI{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+{% block page_subtitle %}Executive summary of residential real-estate metrics & active valuation model{% endblock %}
+
+{% block content %}
+<!-- 5 Dynamic KPI Cards -->
+<div class="row g-4 mb-4">
+    <!-- Total Properties -->
+    <div class="col-xl col-md-4 col-sm-6">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <span>Total Properties</span>
+                <h3>{{ kpis.total_properties }}</h3>
+                <p><i class="bi bi-database-check text-success me-1"></i>Curated Records</p>
+            </div>
+            <div class="kpi-icon-box kpi-blue">
+                <i class="bi bi-houses"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Average House Price -->
+    <div class="col-xl col-md-4 col-sm-6">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <span>Average Price</span>
+                <h3>{{ kpis.avg_price | format_inr }}</h3>
+                <p><i class="bi bi-calculator text-primary me-1"></i>{{ kpis.avg_price | format_inr_full }}</p>
+            </div>
+            <div class="kpi-icon-box kpi-green">
+                <i class="bi bi-currency-rupee"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Highest House Price -->
+    <div class="col-xl col-md-4 col-sm-6">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <span>Highest Price</span>
+                <h3>{{ kpis.max_price | format_inr }}</h3>
+                <p><i class="bi bi-graph-up-arrow text-success me-1"></i>Peak Valuation</p>
+            </div>
+            <div class="kpi-icon-box kpi-purple">
+                <i class="bi bi-trophy"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lowest House Price -->
+    <div class="col-xl col-md-6 col-sm-6">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <span>Lowest Price</span>
+                <h3>{{ kpis.min_price | format_inr }}</h3>
+                <p><i class="bi bi-tag text-info me-1"></i>Entry Level</p>
+            </div>
+            <div class="kpi-icon-box kpi-amber">
+                <i class="bi bi-tags"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Average Property Area -->
+    <div class="col-xl col-md-6 col-sm-12">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <span>Average Area</span>
+                <h3>{{ "%.0f"|format(kpis.avg_area) }} <small class="fs-6 text-muted fw-normal">sq.ft</small></h3>
+                <p><i class="bi bi-bounding-box-circles text-secondary me-1"></i>Standard Sizing</p>
+            </div>
+            <div class="kpi-icon-box kpi-teal">
+                <i class="bi bi-aspect-ratio"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Interactive Charts Row -->
+<div class="row g-4 mb-4">
+    <!-- Average Prices by Location -->
+    <div class="col-lg-7">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>Average House Price by Location</h4>
+                    <p>Comparison of mean property valuations across prime Bangalore zones</p>
+                </div>
+                <a href="{{ url_for('analytics') }}" class="btn btn-sm btn-outline-secondary">
+                    View Details <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="chart-container-box">
+                <canvas id="dashLocationChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Area vs Price Scatter -->
+    <div class="col-lg-5">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>Area vs. Price Distribution</h4>
+                    <p>Linear trend visualization across sample properties</p>
+                </div>
+            </div>
+            <div class="chart-container-box">
+                <canvas id="dashAreaPriceChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Section: Quick Valuation Card & Recent Predictions -->
+<div class="row g-4">
+    <!-- Quick Valuation Banner -->
+    <div class="col-lg-4">
+        <div class="dashboard-card h-100 bg-navy text-white" style="background: linear-gradient(135deg, #0b1329 0%, #1e293b 100%);">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge bg-emerald text-white px-2 py-1"><i class="bi bi-cpu me-1"></i>ML Model</span>
+                <span class="text-white-50 small">Multiple Linear Regression</span>
+            </div>
+            <h4 class="text-white fw-bold mb-2">Estimate Residential Property Price</h4>
+            <p class="text-white-50 small mb-4">
+                Input square footage, bedroom count, location, floors, age, and parking availability to calculate estimated value in real-time.
+            </p>
+            <div class="p-3 rounded-3 mb-4" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="text-white-50 small">ML Algorithm:</span>
+                    <strong class="text-white small">Multiple Linear Regression</strong>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="text-white-50 small">Training Pipeline:</span>
+                    <strong class="text-emerald small">OneHotEncoder + StandardScaler</strong>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white-50 small">Validation:</span>
+                    <strong class="text-info small">80/20 Test Split Fit</strong>
+                </div>
+            </div>
+            <a href="{{ url_for('predict') }}" class="btn btn-emerald w-100 justify-content-center">
+                <i class="bi bi-calculator"></i> Launch Prediction Tool
+            </a>
+        </div>
+    </div>
+
+    <!-- Recent Predictions Table -->
+    <div class="col-lg-8">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>Recent Valuations History</h4>
+                    <p>Latest property predictions logged in SQLite database</p>
+                </div>
+                <a href="{{ url_for('history') }}" class="btn btn-sm btn-outline-secondary">
+                    View Full History <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+
+            {% if recent_predictions %}
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Location</th>
+                            <th>Area</th>
+                            <th>Config</th>
+                            <th>Predicted Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in recent_predictions %}
+                        <tr>
+                            <td class="text-muted small">{{ p.created_at.split(' ')[1] }}</td>
+                            <td><span class="badge-loc">{{ p.location }}</span></td>
+                            <td>{{ p.area_sqft }} sqft</td>
+                            <td>{{ p.bedrooms }} BHK / {{ p.bathrooms }} Bath</td>
+                            <td><strong class="text-success">{{ p.predicted_price_inr | format_inr }}</strong></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5 text-muted">
+                <i class="bi bi-clock-history fs-1 d-block mb-2 text-secondary"></i>
+                <p class="mb-2">No user predictions logged yet.</p>
+                <a href="{{ url_for('predict') }}" class="btn btn-sm btn-emerald">Make First Prediction</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

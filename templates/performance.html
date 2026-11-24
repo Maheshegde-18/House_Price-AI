@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Model Performance - HousePrice AI{% endblock %}
+{% block page_title %}Model Performance & Diagnostics{% endblock %}
+{% block page_subtitle %}Comprehensive statistical evaluation of the trained Multiple Linear Regression pipeline{% endblock %}
+
+{% block content %}
+<!-- Model Summary Strip -->
+<div class="row g-4 mb-4">
+    <!-- MAE -->
+    <div class="col-xl-3 col-md-6">
+        <div class="metric-box">
+            <div class="metric-title"><i class="bi bi-bullseye text-primary me-1"></i>Mean Absolute Error (MAE)</div>
+            <div class="metric-val text-primary">₹ {{ "{:,.0f}".format(metrics.metrics.mae) }}</div>
+            <div class="metric-sub">Average absolute prediction deviation on test set</div>
+        </div>
+    </div>
+
+    <!-- RMSE -->
+    <div class="col-xl-3 col-md-6">
+        <div class="metric-box">
+            <div class="metric-title"><i class="bi bi-graph-down text-danger me-1"></i>Root Mean Squared Error (RMSE)</div>
+            <div class="metric-val text-danger">₹ {{ "{:,.0f}".format(metrics.metrics.rmse) }}</div>
+            <div class="metric-sub">Penalizes larger outliers more heavily than MAE</div>
+        </div>
+    </div>
+
+    <!-- R-Squared -->
+    <div class="col-xl-3 col-md-6">
+        <div class="metric-box">
+            <div class="metric-title"><i class="bi bi-pie-chart text-success me-1"></i>R-Squared Score (R²)</div>
+            <div class="metric-val text-success">{{ "%.4f"|format(metrics.metrics.r2_score) }}</div>
+            <div class="metric-sub">Goodness-of-fit: ~{{ "%.1f"|format(metrics.metrics.r2_score * 100) }}% variance explained</div>
+        </div>
+    </div>
+
+    <!-- MSE -->
+    <div class="col-xl-3 col-md-6">
+        <div class="metric-box">
+            <div class="metric-title"><i class="bi bi-calculator text-secondary me-1"></i>Mean Squared Error (MSE)</div>
+            <div class="metric-val text-secondary fs-4">{{ "{:.2e}".format(metrics.metrics.mse) }}</div>
+            <div class="metric-sub">Raw variance of regression residuals</div>
+        </div>
+    </div>
+</div>
+
+<!-- Dataset Partition & Algorithm Overview -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-12">
+        <div class="dashboard-card bg-light">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center border-end">
+                    <span class="text-muted small text-uppercase fw-bold">Active ML Algorithm</span>
+                    <h5 class="fw-bold text-navy mt-1 mb-0">{{ metrics.algorithm }}</h5>
+                    <span class="badge bg-navy text-white mt-2">{{ metrics.implementation }}</span>
+                </div>
+                <div class="col-md-3 text-center border-end">
+                    <span class="text-muted small text-uppercase fw-bold">Training Sample Count</span>
+                    <h4 class="fw-bold text-success mt-1 mb-0">{{ metrics.training_samples }}</h4>
+                    <span class="text-muted small">80% of dataset (fit strictly)</span>
+                </div>
+                <div class="col-md-3 text-center border-end">
+                    <span class="text-muted small text-uppercase fw-bold">Testing Sample Count</span>
+                    <h4 class="fw-bold text-primary mt-1 mb-0">{{ metrics.testing_samples }}</h4>
+                    <span class="text-muted small">20% held-out test evaluation</span>
+                </div>
+                <div class="col-md-3 text-center">
+                    <span class="text-muted small text-uppercase fw-bold">Intercept ($\beta_0$)</span>
+                    <h5 class="fw-bold text-navy mt-1 mb-0">₹ {{ "{:,.0f}".format(metrics.intercept) }}</h5>
+                    <span class="text-muted small">Baseline regression constant</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Diagnostic Charts Row -->
+<div class="row g-4 mb-4">
+    <!-- Chart 5: Actual vs Predicted Prices -->
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>Actual vs. Predicted Prices</h4>
+                    <p>Scatter plot of test samples compared against the ideal $y = x$ reference line (red dashed)</p>
+                </div>
+            </div>
+            <div class="chart-container-box">
+                <canvas id="actualVsPredChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 6: Residual Distribution -->
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <div class="section-header">
+                <div>
+                    <h4>Residual Error Distribution</h4>
+                    <p>Histogram of test residuals ($e_i = y_i - \hat{y}_i$) demonstrating Gaussian bell curvature</p>
+                </div>
+            </div>
+            <div class="chart-container-box">
+                <canvas id="residualDistChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Regression Coefficients Table -->
+<div class="dashboard-card mb-4">
+    <div class="section-header">
+        <div>
+            <h4>Regression Weights & Feature Coefficients ($\beta_i$)</h4>
+            <p>Direct interpretability of linear regression: how each feature shifts the estimated price</p>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Feature Name</th>
+                    <th>Feature Type</th>
+                    <th>Coefficient Value ($\beta$)</th>
+                    <th>Interpretation Impact</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in metrics.coefficients %}
+                <tr>
+                    <td><code>{{ item.feature }}</code></td>
+                    <td>
+                        {% if 'cat__' in item.feature %}
+                        <span class="badge bg-info-subtle text-info border">Categorical (OneHot)</span>
+                        {% else %}
+                        <span class="badge bg-secondary-subtle text-secondary border">Continuous / Numeric</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.coefficient >= 0 %}
+                        <strong class="text-success">+₹ {{ "{:,.0f}".format(item.coefficient) }}</strong>
+                        {% else %}
+                        <strong class="text-danger">-₹ {{ "{:,.0f}".format(item.coefficient|abs) }}</strong>
+                        {% endif %}
+                    </td>
+                    <td class="small text-muted">
+                        {% if 'cat__' in item.feature %}
+                        Location-specific premium/discount relative to the baseline reference.
+                        {% elif item.feature == 'Property_Age' %}
+                        Annual depreciation factor reducing property valuation over time.
+                        {% elif item.feature == 'Area_sqft' %}
+                        Primary rate driver per standard unit change in square footage.
+                        {% elif item.feature == 'Parking' %}
+                        Capital appreciation added for assigned vehicle parking facility.
+                        {% else %}
+                        Incremental structural valuation contribution.
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Statistical Clarification Alert -->
+<div class="dashboard-card border-start border-4 border-primary">
+    <div class="d-flex gap-3 align-items-start">
+        <i class="bi bi-mortarboard-fill fs-2 text-primary"></i>
+        <div>
+            <h5 class="fw-bold text-navy mb-1">Academic Clarification: R-Squared ($R^2$) vs. Classification Accuracy</h5>
+            <p class="text-muted small mb-2">
+                <strong>Why $R^2$ is NOT "accuracy":</strong> In supervised Machine Learning, classification models (predicting categories) evaluate accuracy as percentage of correct classes. Continuous regression models (predicting continuous dollar/rupee amounts) evaluate the coefficient of determination $R^2$, calculated as:
+            </p>
+            <div class="p-2 bg-light rounded text-monospace small mb-2">
+                $$R^2 = 1 - \frac{SS_{\text{res}}}{SS_{\text{tot}}} = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2}$$
+            </div>
+            <p class="text-muted small mb-0">
+                An $R^2$ score of <strong>{{ "%.4f"|format(metrics.metrics.r2_score) }}</strong> indicates that approximately <strong>{{ "%.1f"|format(metrics.metrics.r2_score * 100) }}%</strong> of the variance in residential house prices is accounted for by our linear combination of property features. Performance depends on dataset quality, homoscedasticity, and real-world market generalization.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
